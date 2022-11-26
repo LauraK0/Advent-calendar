@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap');
+
+:root {
+    --colour-one: #7F6B4E; /*shadow*/
+    --colour-two:   #36432F; /*cabbage point*/
+    --colour-three: #713C2F; /*spice*/
+    --colour-four: #A6B8BF; /*tower gray*/
+
+    --text-size: 0.98em;
+    --h1-size: 48px;
+    --h2-size: 36px;
+    --h3-size:  20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('./images/background-image.jpeg');
+    font-family: 'Mountains of Christmas', cursive;
+}
+
+h1{
+    font-size: var(--h1-size);
+    color: var(--colour-three);
+    font-weight: 700;
+    text-align: center;
+    padding:0.5em;
+}
+#calendar-grid {
+    display: grid;
+    width: 98%;
+    max-width: 940px;
+    margin: 2% auto;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 25px;
+  }
+
+#calendar-grid input {
+    display: none;
+}
+
+#door-24 {
+    grid-column-start: 1;
+    grid-column: span 2;
+    grid-row-start: 1;
+    grid-row: span 2;
+}
+  
+label {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    display: flex;
+    min-height: 100%;
+    width: 100%;
+    height: 120px;
+}
+  
+.door {
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: all 300ms;
+    border: 0.5px dashed transparent;
+    border-radius: 10px;
+    border-color: #b6cdcf;
+}
+  
+.door div {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--colour-two);
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 var(--colour-four);
+}
+
+.door .front {
+    background: rgba(166, 184, 191, 0.2);
+}
+
+.door .opened {
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: var(--colour-four);
+    transform: rotateY(180deg);
+}
+
+label:hover .door {
+    border-color: #385052;
+}
+
+:checked + .door {
+    transform: rotateY(180deg);
+}
+
+/* media queries */
+@media only screen and (max-width: 500px) {
+.calendar-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+}
