@@ -1,38 +1,29 @@
 const calendarGrid = document.getElementById('calendar-grid');
-const array = Array.from({length: 24}, (_, i) => i + 1);
 const modal = document.querySelector('.modal');
 const closeButton = document.querySelector(".close-button");
-let simulateDate;
-let dateAsNumber = 10;
+const simulateDateEl = document.getElementById('simulate-date');
 
-document.getElementById('simulate-date').addEventListener("change", updateDate);
+let array = JSON.parse(localStorage.getItem('storedArray')) || [];
+let simulateDate = JSON.parse(localStorage.getItem('currentDate')) || 0;
 
-function updateDate() {
-  simulateDate = document.getElementById('simulate-date');
-  dateAsNumber = simulateDate.valueAsNumber;
-  return dateAsNumber;
-}
-
-shuffle(array);
-createWindows(array);
-createStorage();
-
-closeButton.addEventListener("click", openWindow);
-
-function shuffle(array) {
+if (array.length === 0) {
+    array = Array.from({length: 24}, (_, i) => i + 1);
+    console.log(array)
     let currentIndex = array.length,  randomIndex;
-    // While there remain elements to shuffle.
     while (currentIndex != 0) {
-      // Pick a remaining element.
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
-      // And swap it with the current element.
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }
-  
-    return array;
 }
+
+createWindows(array);
+
+/*event listeners*/
+document.addEventListener("DOMContentLoaded", getStoredArray);
+simulateDateEl.addEventListener("change", updateDate);
+closeButton.addEventListener("click", openWindow);
 
 function createWindows(array){ 
     array.forEach((window) => {
@@ -43,18 +34,27 @@ function createWindows(array){
         windowEl.innerHTML = `${window}`;
         calendarGrid.appendChild(windowEl); 
     })
+    setStorage(array);
 }
+
+function updateDate() {
+    simulateDate = Number(simulateDateEl.value);
+    addDateLocalStorage(simulateDate);
+    return simulateDate;
+  }
 
 const windows = document.querySelectorAll('.front');
 
 windows.forEach(window => window.addEventListener('click', (e) => {
     let windowID = window.textContent;
     let windowNum = Number(windowID);
-    if (dateAsNumber >= windowNum){
+    simulateDate = Number(simulateDateEl.value);
+    if (simulateDate >= windowNum){
         window.classList.remove('front');
         window.classList.add('opened');
         window.innerHTML ='';
         modal.classList.toggle("show-modal");
+        removeFromLocalStorage(windowNum);
     }
     else {
         e.preventDefault();
@@ -62,12 +62,47 @@ windows.forEach(window => window.addEventListener('click', (e) => {
     }
 }));
 
-
-
 function openWindow(){
     modal.classList.toggle("show-modal");
 }
 
 function createStorage() {
+    let array = getStoredArray();
+    if (array.length == 0) {
+        let array = [];
+        localStorage.setItem('storedArray', JSON.stringify(array));
+    }
 }
 
+function getStoredArray() {
+    if (simulateDate === 0) {
+        updateDate();
+    }
+    else {
+        simulateDateEl.value = simulateDate;
+    }
+    let array = [];
+    if (localStorage.getItem('storedArray') !== null) {
+        array = JSON.parse(localStorage.getItem('storedArray'))
+    }
+    return array;
+}
+
+function setStorage(array) {
+    localStorage.setItem('storedArray', JSON.stringify(array));
+    updateStorage();
+}
+
+function addDateLocalStorage(dateAsNumber) {
+    localStorage.setItem('currentDate', JSON.stringify(dateAsNumber));
+}
+
+function updateStorage() {
+    let array = getStoredArray();
+}
+
+function removeFromLocalStorage(windowNum) {
+    console.log(windowNum);
+    array.splice(array.indexOf(windowNum), 1);
+    localStorage.setItem('storedArray', JSON.stringify(array));
+}
