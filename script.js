@@ -2,8 +2,16 @@ const calendarGrid = document.getElementById('calendar-grid');
 const array = Array.from({length: 24}, (_, i) => i + 1);
 const modal = document.querySelector('.modal');
 const closeButton = document.querySelector(".close-button");
-const simulateDate  = document.getElementById('simulate-date').valueAsNumber;
-console.log(simulateDate)
+let simulateDate;
+let dateAsNumber = 10;
+
+document.getElementById('simulate-date').addEventListener("change", updateDate);
+
+function updateDate() {
+  simulateDate = document.getElementById('simulate-date');
+  dateAsNumber = simulateDate.valueAsNumber;
+  return dateAsNumber;
+}
 
 shuffle(array);
 createWindows(array);
@@ -30,15 +38,9 @@ function createWindows(array){
     array.forEach((window) => {
         let windowEl = document.createElement("div"); 
         windowEl.setAttribute("id", `window-${window}`);
-        let windowElHTML = 
-        `
-        <label>
-        <input id = 'window_${window}' type='checkbox'>
-            <div id='${window}' class='window front'>${window}</div>
-        </input>
-        </label>
-        `;
-        windowEl.innerHTML = windowElHTML; 
+        windowEl.classList.add('window');
+        windowEl.classList.add('front');
+        windowEl.innerHTML = `${window}`;
         calendarGrid.appendChild(windowEl); 
     })
 }
@@ -46,7 +48,9 @@ function createWindows(array){
 const windows = document.querySelectorAll('.front');
 
 windows.forEach(window => window.addEventListener('click', (e) => {
-    if (simulateDate >= window.id ){
+    let windowID = window.textContent;
+    let windowNum = Number(windowID);
+    if (dateAsNumber >= windowNum){
         window.classList.remove('front');
         window.classList.add('opened');
         window.innerHTML ='';
