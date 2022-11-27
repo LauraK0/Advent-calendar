@@ -1,9 +1,15 @@
 const calendarGrid = document.getElementById('calendar-grid');
-const array = Array.from({length: 24}, (_, i) => i + 1)
+const array = Array.from({length: 24}, (_, i) => i + 1);
+const modal = document.querySelector('.modal');
+const closeButton = document.querySelector(".close-button");
+const simulateDate  = document.getElementById('simulate-date').valueAsNumber;
+console.log(simulateDate)
 
 shuffle(array);
-createDoors(array);
+createWindows(array);
 createStorage();
+
+closeButton.addEventListener("click", openWindow);
 
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
@@ -18,36 +24,44 @@ function shuffle(array) {
     }
   
     return array;
-  }
-  
-  console.log(array);
+}
 
-function createDoors(array){ 
-    array.forEach((number) => {
-        let adventDoor = document.createElement("div"); 
-        adventDoor.setAttribute("id", `door-${number}`);
-        let adventDoorHTML = 
+function createWindows(array){ 
+    array.forEach((window) => {
+        let windowEl = document.createElement("div"); 
+        windowEl.setAttribute("id", `window-${window}`);
+        let windowElHTML = 
         `
         <label>
-        <input id = 'door_${number}' type='checkbox'>
-            <div class='door'>
-                <div class='front'>${number}</div>
-                <div class='opened'></div>
-            </div>
+        <input id = 'window_${window}' type='checkbox'>
+            <div id='${window}' class='window front'>${window}</div>
         </input>
         </label>
         `;
-        adventDoor.innerHTML = adventDoorHTML; 
-        calendarGrid.appendChild(adventDoor); 
+        windowEl.innerHTML = windowElHTML; 
+        calendarGrid.appendChild(windowEl); 
     })
 }
 
-const doors = document.querySelectorAll('.door');
+const windows = document.querySelectorAll('.front');
 
-doors.forEach(door => door.addEventListener('click', openDoor));
+windows.forEach(window => window.addEventListener('click', (e) => {
+    if (simulateDate >= window.id ){
+        window.classList.remove('front');
+        window.classList.add('opened');
+        window.innerHTML ='';
+        modal.classList.toggle("show-modal");
+    }
+    else {
+        e.preventDefault();
+        alert('it is not yet time.');
+    }
+}));
 
-function openDoor(){
-    console.log('door');
+
+
+function openWindow(){
+    modal.classList.toggle("show-modal");
 }
 
 function createStorage() {

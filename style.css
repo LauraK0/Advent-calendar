@@ -32,6 +32,27 @@ h1{
     text-align: center;
     padding:0.5em;
 }
+/*sub heading */
+.sub-heading {
+    text-align: center;
+    font-size: var(--h2-size);
+    color: var(--colour-two);
+}
+input {
+    width: 60px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: var(--h2-size);
+    background-color: var(--colour-two);
+    font-family: 'Mountains of Christmas', cursive;
+    text-align: center;
+    margin-left: 5px;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    color: white;
+}
+
 #calendar-grid {
     display: grid;
     width: 98%;
@@ -46,7 +67,7 @@ h1{
     display: none;
 }
 
-#door-24 {
+#window-24 {
     grid-column-start: 1;
     grid-column: span 2;
     grid-row-start: 1;
@@ -62,17 +83,8 @@ label {
     width: 100%;
     height: 120px;
 }
-  
-.door {
-    width: 100%;
-    transform-style: preserve-3d;
-    transition: all 300ms;
-    border: 0.5px dashed transparent;
-    border-radius: 10px;
-    border-color: #b6cdcf;
-}
-  
-.door div {
+
+.window {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -82,29 +94,84 @@ label {
     align-items: center;
     justify-content: center;
     color: var(--colour-two);
-    font-size: 2em;
+    font-size: var(--h2-size);
     font-weight: bold;
     text-shadow: 1px 1px 0 var(--colour-four);
+    transform-style: preserve-3d;
+    transition: all 300ms;
+    border: 0.5px dashed;
+    border-radius: 10px;
+    border-color: #b6cdcf;
 }
 
-.door .front {
+.window.front {
     background: rgba(166, 184, 191, 0.2);
 }
 
-.door .opened {
+/* .window.opened {
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
+    border: 0.5px dashed gray;
+    border-radius: 10px;
+    border-color: #b6cdcf;
     background-color: var(--colour-four);
+    cursor:default;
     transform: rotateY(180deg);
-}
+} */
 
-label:hover .door {
+label:hover .window {
     border-color: #385052;
 }
 
-:checked + .door {
+:checked + .window {
     transform: rotateY(180deg);
+}
+
+/* modal */
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 24rem;
+    border-radius: 0.5rem;
+}
+
+.close-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+
+.close-button:hover {
+    background-color: darkgray;
+}
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 
 /* media queries */
