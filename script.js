@@ -9,10 +9,10 @@ const images = {
     1: 'https://www.youtube.com/embed/ULaNvmjZWxg',
     2: 'https://www.youtube.com/embed/WYYJ7yaL9WU',
     3: './images/window-images/singing.png',
-    4: 'https://www.youtube.com/watch?v=N-PyWfVkjZc',
-    5: './images/window-images/christmas-dog-1.jpeg',
+    4: 'https://www.youtube.com/embed/qDL2HBPy9uQ', //
+    5: './images/window-images/christmas-dog-1.jpeg', 
     6: 'https://www.youtube.com/embed/VjL031bE9FA',
-    7: './images/window-images/christmas-biscuits.jpeg', 
+    7: 'https://www.youtube.com/embed/LZOKbPNgS5s', // 
     8: './images/window-images/christmas-cats.jpeg', 
     9:  'https://www.youtube.com/embed/3CWJNqyub3o',
     10: './images/window-images/christmas-wreath.jpeg', 
@@ -26,11 +26,10 @@ const images = {
     18: './images/window-images/robin-reindeer.jpeg', 
     19: './images/window-images/gingerbread-museum.jpeg',
     20: 'https://www.youtube.com/embed/IJPc7esgvsA', 
-    21: './images/window-images/christmas-tree.jpeg',
+    21: './images/window-images/Christmas-tree.jpeg', //
     22: 'https://www.youtube.com/embed/BpfHSqLXePI', 
     23: 'https://www.youtube.com/embed/NzcUQuImIBY',
 };
-
 
 const windowArray = JSON.parse(localStorage.getItem('storedArray')) || [];
 let simulateDate = JSON.parse(localStorage.getItem('currentDate')) || 0;
