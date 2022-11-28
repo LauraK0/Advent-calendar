@@ -52,6 +52,27 @@ input {
     border: none;
     color: white;
 }
+footer{
+    justify-content: center;
+    text-align: center;
+}
+
+.standard-button {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: var(--h3-size);
+    background-color: var(--colour-one);
+    font-family: 'Mountains of Christmas', cursive;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    color: white;
+}
 
 #calendar-grid {
     display: grid;
@@ -97,15 +118,13 @@ input {
 }
 
 .window.opened {
-    /* background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat; */
     border: 0.5px dashed gray;
     border-radius: 10px;
     border-color: #b6cdcf;
     background-color: var(--colour-four);
+    opacity: 0.2;
     cursor:default;
-    transform: rotateY(180deg);
+    /* transform: rotateY(180deg); */
 } 
 
 .window:hover {
@@ -126,21 +145,26 @@ input {
     transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
 
-.modal-content {
+#modal-content {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 1rem 1.5rem;
-    width: 24rem;
     border-radius: 0.5rem;
+}
+
+#modal-content img {
+ width: 450px;
 }
 
 .close-button {
     float: right;
-    width: 1.5rem;
-    line-height: 1.5rem;
+    margin-top: 10%;
+    margin-right: 10%;
+    width: 2rem;
+    line-height: 3rem;
     text-align: center;
     cursor: pointer;
     border-radius: 0.25rem;

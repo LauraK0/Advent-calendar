@@ -1,8 +1,36 @@
 const calendarGrid = document.getElementById('calendar-grid');
 const modal = document.querySelector('.modal');
 const closeButton = document.querySelector(".close-button");
+const resetButton = document.getElementById('reset-button');
 const simulateDateEl = document.getElementById('simulate-date');
-const images = {0: "Image1", 1: "image2", 2: "image3" , 3: "image4", 4: "image5", 5: "image6", 6: "image7", 7: "image8", 8: "image9", 9: "image10", 10: "image11", 11: "image12", 11: "image12", 12: "image13", 13: "image14", 14: "image15", 15: "image16", 16: "image17", 17: "image18", 18: "image19", 19: "image20", 20: "image21", 21: "image22", 22: "image23", 23: "image24"};
+const imgModal = document.getElementById('modal-content');
+const images = {
+    0: './images/window-images/24-more-sleeps.jpeg', 
+    1: 'https://www.youtube.com/embed/ULaNvmjZWxg',
+    2: 'https://www.youtube.com/embed/WYYJ7yaL9WU',
+    3: './images/window-images/singing.png',
+    4: 'https://www.youtube.com/watch?v=N-PyWfVkjZc',
+    5: './images/window-images/christmas-dog-1.jpeg',
+    6: 'https://www.youtube.com/embed/VjL031bE9FA',
+    7: './images/window-images/christmas-biscuits.jpeg', 
+    8: './images/window-images/christmas-cats.jpeg', 
+    9:  'https://www.youtube.com/embed/3CWJNqyub3o',
+    10: './images/window-images/christmas-wreath.jpeg', 
+    11: 'https://www.youtube.com/embed/1qbxTqN6gSE',
+    12: './images/window-images/christmas-dogs.jpeg', 
+    13: 'https://www.youtube.com/embed/cGSneujgGT8',
+    14: './images/window-images/christmas-pets.jpeg', 
+    15: 'https://www.youtube.com/embed/np2ZapISRzM',
+    16: './images/window-images/nativity-scene.png', 
+    17: 'https://www.youtube.com/embed/_8v183sLNFQ',
+    18: './images/window-images/robin-reindeer.jpeg', 
+    19: './images/window-images/gingerbread-museum.jpeg',
+    20: 'https://www.youtube.com/embed/IJPc7esgvsA', 
+    21: './images/window-images/christmas-tree.jpeg',
+    22: 'https://www.youtube.com/embed/BpfHSqLXePI', 
+    23: 'https://www.youtube.com/embed/NzcUQuImIBY',
+};
+
 
 const windowArray = JSON.parse(localStorage.getItem('storedArray')) || [];
 let simulateDate = JSON.parse(localStorage.getItem('currentDate')) || 0;
@@ -21,11 +49,49 @@ if (windowArray.length === 0) {
 }
 
 createWindows(windowArray);
+storeWindows();
+
+const windows = document.querySelectorAll('.front');
 
 /*event listeners*/
 document.addEventListener("DOMContentLoaded", getStoredArray);
 simulateDateEl.addEventListener("change", updateDate);
-closeButton.addEventListener("click", openWindow);
+closeButton.addEventListener("click", closeModal);
+resetButton.addEventListener("click", reset);
+
+windows.forEach(window => window.addEventListener('click', (e) => {
+    let windowDay = window.textContent;
+    let windowNum = Number(windowDay);
+    simulateDate = Number(simulateDateEl.value);
+    if (simulateDate >= windowNum){
+        window.classList.remove('front');
+        window.classList.add('opened');
+        window.innerHTML ='';
+        let found = windowArray.find(element => element.day === windowNum);
+        let test = found.image.includes('youtube');
+        if (test === true) {
+                let outputSectionHTML = 
+                `
+                <iframe title="myFrame" id="modal-content" width="630" height="472" src='${found.image}'></iframe>
+                `;
+                imgModal.innerHTML = outputSectionHTML;
+            }
+        else {
+            let outputSectionHTML = 
+            `
+            <img id="modal-content" alt="image" src='${found.image}'></img>
+            `;
+            imgModal.innerHTML = outputSectionHTML;
+
+        }
+        modal.classList.toggle("show-modal");
+        found.opened = true;
+    }
+    else {
+        e.preventDefault();
+        alert('it is not yet time.');
+    }
+}));
 
 function createWindows(windowArray){ 
     windowArray.forEach((window) => {
@@ -39,35 +105,17 @@ function createWindows(windowArray){
     setStorage(windowArray);
 }
 
+function storeWindows() {
+    localStorage.setItem('storedArray', JSON.stringify(windowArray));
+}
+
 function updateDate() {
     simulateDate = Number(simulateDateEl.value);
     addDateLocalStorage(simulateDate);
     return simulateDate;
   }
 
-const windows = document.querySelectorAll('.front');
-
-windows.forEach(window => window.addEventListener('click', (e) => {
-    let windowDay = window.textContent;
-    console.log(windowDay);
-    let windowNum = Number(windowDay);
-    simulateDate = Number(simulateDateEl.value);
-    if (simulateDate >= windowNum){
-        window.classList.remove('front');
-        window.classList.add('opened');
-        window.innerHTML ='';
-        modal.classList.toggle("show-modal");
-        let found = windowArray.find(element => element.day === windowNum);
-        found.opened = true;
-        localStorage.setItem('storedArray', JSON.stringify(windowArray));
-    }
-    else {
-        e.preventDefault();
-        alert('it is not yet time.');
-    }
-}));
-
-function openWindow(){
+function closeModal(){
     modal.classList.toggle("show-modal");
 }
 
@@ -109,3 +157,16 @@ function addDateLocalStorage(dateAsNumber) {
     localStorage.setItem('currentDate', JSON.stringify(dateAsNumber));
 }
 
+function reset() {
+    console.log(windowArray);
+    windowArray.forEach((window) =>  {
+        if (window.opened === true) {
+            let updateEl = document.getElementById(`window-${window.day}`)
+            updateEl.classList.remove('opened');
+            updateEl.classList.add('front');
+            updateEl.innerHTML =+`${window.day}`;
+        }
+    });
+    localStorage.removeItem('storedArray', JSON.stringify(windowArray));
+    localStorage.removeItem('currentDate', JSON.stringify(simulateDate));
+}
