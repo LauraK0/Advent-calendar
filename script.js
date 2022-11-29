@@ -71,7 +71,7 @@ windows.forEach(window => window.addEventListener('click', (e) => {
         if (test === true) {
                 let outputSectionHTML = 
                 `
-                <iframe title="myFrame" id="modal-content" width="630" height="472" src='${found.image}'></iframe>
+                <iframe title="myFrame" id="video-content" width="630" height="472" src='${found.image}'></iframe>
                 `;
                 imgModal.innerHTML = outputSectionHTML;
             }
@@ -115,6 +115,8 @@ function updateDate() {
   }
 
 function closeModal(){
+    let videoSrc = document.getElementByID('video-content');
+    videoSrc.setAttribute("src", "");
     modal.classList.toggle("show-modal");
 }
 
