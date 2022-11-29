@@ -115,7 +115,7 @@ function updateDate() {
   }
 
 function closeModal(){
-    let videoSrc = document.getElementByID('video-content');
+    let videoSrc = document.querySelector('#video-content');
     videoSrc.setAttribute("src", "");
     modal.classList.toggle("show-modal");
 }
