@@ -115,9 +115,9 @@ function updateDate() {
   }
 
 function closeModal(){
-    let videoSrc = document.querySelector('#video-content');
-    videoSrc.setAttribute("src", "");
     modal.classList.toggle("show-modal");
+    let videoSrc = document.querySelector('#video-content') || '';
+    videoSrc.setAttribute("src", "");
 }
 
 function createStorage() {
